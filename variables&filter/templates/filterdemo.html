@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Filter Demo{% endblock title %}
+
+{% block content %}
+<h1>Jinja2 Filter Demonstration</h1>
+
+<section>
+    <h2>String Filters</h2>
+    <ul>
+        <li>Upper: {{ context.username[0]|upper }}</li>
+        <li>Lower: {{ context.username[0]|lower }}</li>
+        <li>Title: {{ "hello world"|title }}</li>
+        <li>Capitalize: {{ "hello world"|capitalize }}</li>
+        <li>Join with comma: {{ context.username|join(', ') }}</li>
+        <li>Truncate: {{ context.username[0]|truncate(7) }}</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Number Filters</h2>
+    <ul>
+        <li>Round: {{ context.salary[0]|round }}</li>
+        <li>Round 2 decimals: {{ context.salary[0]|round(2) }}</li>
+        <li>Format as currency: ${{ context.salary[0]|round(2) }}</li>
+        <li>Absolute value: {{ -15|abs }}</li>
+        <li>Sum of ages: {{ context.age|sum }}</li>
+        <li>Min age: {{ context.age|min }}</li>
+        <li>Max age: {{ context.age|max }}</li>
+    </ul>
+</section>
+
+<section>
+    <h2>List Filters</h2>
+    <ul>
+        <li>Length: {{ context.username|length }}</li>
+        <li>First item: {{ context.username|first }}</li>
+        <li>Last item: {{ context.username|last }}</li>
+        <li>Sorted names: {{ context.username|sort|join(', ') }}</li>
+        <li>Reversed names: {{ context.username|reverse|join(', ') }}</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Boolean Filters</h2>
+    <ul>
+        <li>Active users:
+            <ul>
+                {% for i in range(context.username|length) %}
+                    {% if context.is_active[i] %}
+                        <li>{{ context.username[i] }} is active</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </li>
+        <li>Boolean to Yes/No:
+            <ul>
+                {% for i in range(context.username|length) %}
+                    <li>{{ context.username[i] }}: {{ "Yes" if context.is_active[i] else "No" }}</li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <h2>Date Filters</h2>
+    <ul>
+        {% for date in context.date %}
+            <li>{{ date }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<section>
+    <h2>User Table</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Age</th>
+                <th>Active</th>
+                <th>Salary</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(context.username|length) %}
+                <tr>
+                    <td>{{ context.username[i] }}</td>
+                    <td>{{ context.age[i] }}</td>
+                    <td>{{ "Yes" if context.is_active[i] else "No" }}</td>
+                    <td>${{ context.salary[i]|round(2) }}</td>
+                    <td>{{ context.date[i] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+<h1>iterate in reverse order </h1>
+{% for a_num in context.age %}
+    {% if a_num is divisibleby 5 %}
+    {{ a_num }}
+    {% else %}
+    <h1>{{ a_num }} is not divisible by 5</h1>
+    {% endif %}
+<br>
+{% endfor %}
+{% endblock content %}
